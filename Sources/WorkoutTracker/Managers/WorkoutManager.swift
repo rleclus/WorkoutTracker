@@ -7,7 +7,7 @@
 import SwiftUI
 
 class WorkoutManager {
-	static let shared = WorkoutManager()
+	@MainActor static let shared = WorkoutManager()
 	private init() {
 		
 	}

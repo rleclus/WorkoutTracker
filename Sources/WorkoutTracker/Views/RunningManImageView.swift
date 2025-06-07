@@ -23,6 +23,9 @@ struct RunningManImageView: View {
 				}
 				currentFrame = (currentFrame + 1) % totalFrames
 			}
+			.onDisappear {
+				timer.upstream.connect().cancel()
+			}
 	}
 }
 

@@ -9,6 +9,10 @@ import SwiftUI
 public struct WorkoutView: View {
 	@State var isAnimated = false
 	@State var workoutTimer = "00:00:00"
+	@State private var elapsedSeconds = 0
+	@State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+	
+	public init() {	}
 	public var body: some View {
 		VStack {
 			Text("Workout").font(.largeTitle)
@@ -43,6 +47,8 @@ public struct WorkoutView: View {
 			.padding(EdgeInsets(top:10, leading: 0, bottom: 10, trailing: 0))
 			Button {
 				isAnimated = false
+				workoutTimer = "00:00:00"
+				elapsedSeconds = 0
 			} label: {
 				Text("Stop")
 					.padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
@@ -53,6 +59,20 @@ public struct WorkoutView: View {
 			.clipShape(RoundedRectangle(cornerRadius: 5))
 			.font(.title)
 		}
+		.onReceive(timer) { _ in
+			guard isAnimated else { return }
+			elapsedSeconds += 1
+			workoutTimer = formatTime(seconds: elapsedSeconds)
+		}
+		.onDisappear() {
+			timer.upstream.connect().cancel()
+		}
+	}
+	func formatTime(seconds: Int) -> String {
+		let hours = seconds / 3600
+		let minutes = (seconds % 3600) / 60
+		let secs = seconds % 60
+		return String(format: "%02d:%02d:%02d", hours, minutes, secs)
 	}
 }
 #Preview {
