@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct Workout {
+public struct Workout {
   var start: Date
   var end: Date
   
-  init(start: Date, end: Date) {
+  public init(start: Date, end: Date) {
 	self.start = start
 	self.end = end
   }
   
-  var duration: TimeInterval {
+  public var duration: TimeInterval {
 	return end.timeIntervalSince(start)
   }
   
-  var totalEnergyBurned: Double {
+  public var totalEnergyBurned: Double {
 	let caloriesPerHour: Double = 450
 	let hours: Double = duration/3600
 	let totalCalories = caloriesPerHour * hours
