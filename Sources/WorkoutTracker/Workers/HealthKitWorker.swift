@@ -14,7 +14,7 @@ enum HealthKitWorkerError: Error {
 	case otherHealthKitError(error: Error)
 }
 
-class HealthKitWorker: @unchecked Sendable {
+class HealthKitWorker: HealthKitProtocol, @unchecked Sendable {
 	init() {}
 	
 	private var healthStore = HKHealthStore()
